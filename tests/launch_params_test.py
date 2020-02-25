@@ -7,11 +7,11 @@ class DontTestLaunchParams():
         '''
         Should process parameters.
         '''
-        for (key, val) in self.params.iteritems():
+        for (key, val) in self.params.items():
             if not 'custom_' in key\
                     and not 'ext_' in key\
                     and not 'roles' in key:
-                self.assertEquals(getattr(self.tool, key), val)
+                self.assertEqual(getattr(self.tool, key), val)
 
         # Test roles
         self.assertTrue(sorted(self.tool.roles) == sorted(['Learner',\
@@ -21,20 +21,20 @@ class DontTestLaunchParams():
         '''
         Should handle custom/extension parameters.
         '''
-        self.assertEquals(self.tool.get_custom_param('param1'), 'custom1')
-        self.assertEquals(self.tool.get_custom_param('param2'), 'custom2')
-        self.assertEquals(self.tool.get_ext_param('lti_message_type'),
+        self.assertEqual(self.tool.get_custom_param('param1'), 'custom1')
+        self.assertEqual(self.tool.get_custom_param('param2'), 'custom2')
+        self.assertEqual(self.tool.get_ext_param('lti_message_type'),
                 'extension-lti-launch')
         self.tool.set_custom_param('param3', 'custom3')
         self.tool.set_ext_param('user_id', 'bob')
 
         params = self.tool.to_params()
-        self.assertEquals(params['custom_param1'], 'custom1')
-        self.assertEquals(params['custom_param2'], 'custom2')
-        self.assertEquals(params['custom_param3'], 'custom3')
-        self.assertEquals(params['ext_lti_message_type'],
+        self.assertEqual(params['custom_param1'], 'custom1')
+        self.assertEqual(params['custom_param2'], 'custom2')
+        self.assertEqual(params['custom_param3'], 'custom3')
+        self.assertEqual(params['ext_lti_message_type'],
                 'extension-lti-launch')
-        self.assertEquals(params['ext_user_id'], 'bob')
+        self.assertEqual(params['ext_user_id'], 'bob')
 
     def test_invalid_request(self):
         '''

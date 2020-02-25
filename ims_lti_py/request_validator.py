@@ -1,4 +1,5 @@
 import oauth2
+import six
 
 
 class RequestValidatorMixin(object):
@@ -36,10 +37,13 @@ class RequestValidatorMixin(object):
                 headers=headers,
                 parameters=parameters)
 
+            if isinstance(oauth_request['oauth_signature'], six.string_types):
+                oauth_request['oauth_signature'] = oauth_request['oauth_signature'].encode('utf-8')
+
             self.oauth_server.verify_request(
                 oauth_request, self.oauth_consumer, {})
 
-        except oauth2.MissingSignature, e:
+        except oauth2.MissingSignature as e:
             if handle_error:
                 return False
             else:
@@ -93,7 +97,7 @@ class DjangoRequestValidatorMixin(RequestValidatorMixin):
         return (fake_method or request.method,
                 request.build_absolute_uri(),
                 request.META,
-                (dict(request.POST.iteritems())
+                (dict(iter(request.POST.items()))
                     if request.method == 'POST'
                     else parameters))
 

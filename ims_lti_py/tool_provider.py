@@ -1,18 +1,18 @@
-from launch_params import LaunchParamsMixin
-from request_validator import (
+from .launch_params import LaunchParamsMixin
+from .request_validator import (
     RequestValidatorMixin,
     FlaskRequestValidatorMixin,
     DjangoRequestValidatorMixin,
     WebObRequestValidatorMixin
 )
-from outcome_request import OutcomeRequest
+from .outcome_request import OutcomeRequest
 from collections import defaultdict
 import re
-from urllib import urlencode
-from urlparse import urlsplit, urlunsplit
+from urllib.parse import urlencode
+from urllib.parse import urlsplit, urlunsplit
 
 try:
-    from urlparse import parse_qsl
+    from urllib.parse import parse_qsl
 except ImportError:
     # fall back for Python 2.5
     from cgi import parse_qsl  # NOQA
